@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Control Management System - Orders</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Inventory Management Logo" class="logo">
+            <h1>Inventory Control Management System</h1>
+        </div>
+        <nav>
+            <a href="#" class="nav-link">Dashboard</a>
+            <a href="#" class="nav-link">Products</a>
+            <a href="#" class="nav-link active">Orders</a>
+            <a href="#" class="nav-link">Insights</a>
+            <a href="#" class="nav-link">Profile</a>
+        </nav>
+        <button class="logout-btn">Logout</button>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="orders-container">
+            <div class="orders-header">
+                <h2>Orders</h2>
+                <div class="search-filter-container">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Search Order ID or Client Name">
+                        <i class="search-icon">🔍</i>
+                    </div>
+                    <select id="status-filter">
+                        <option value="">All Pay Methods</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="UPI">UPI</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Debit Card">Debit Card</option>
+                    </select>
+                </div>
+            </div>
+
+            <table id="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Client Name</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Total Items</th>
+                        <th>Total Value</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-body">
+                    <!-- Orders will be dynamically populated here -->
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button id="prev-btn">Previous</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button id="next-btn">Next</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Inventory Control Management System</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Contact Support</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

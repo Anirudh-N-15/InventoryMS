@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>InventoryPro - Login</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!--Stylesheet-->
+  <style media="screen">
+    *,
+    *:before,
+    *:after {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: #333;
+      line-height: 1.6;
+      background-color: #f5f8ff;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    /* Header */
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      font-size: 30px;
+      color: #1845ad;
+      margin-right: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1845ad;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin: 0 15px;
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      font-size: 16px;
+    }
+    
+    nav ul li a:hover {
+      color: #1845ad;
+    }
+    
+    /* Login Form Container */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+    }
+    
+    .background-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .shape {
+      height: 300px;
+      width: 300px;
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+    
+    .shape-left {
+      background: linear-gradient(135deg, #1845ad, #23a2f6);
+      left: -100px;
+      top: 20%;
+    }
+    
+    .shape-right {
+      background: linear-gradient(135deg, #1845ad, #23a2f6);
+      right: -100px;
+      bottom: 15%;
+    }
+    
+    /* Login Form */
+    .login-form {
+      width: 400px;
+      background-color: white;
+      border-radius: this.10px;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .login-form h2 {
+      font-size: 28px;
+      color: #1845ad;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    .login-form p {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .form-group label {
+      display: block;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    .form-group input {
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #333;
+      transition: border-color 0.3s;
+    }
+
+    .form-group select {
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #333;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus {
+      border-color: #1845ad;
+      outline: none;
+    }
+    
+    .login-btn {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(135deg, #1845ad, #23a2f6);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .login-btn:hover {
+      background: linear-gradient(135deg, #0e2e7b, #1a80c5);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(24,69,173,0.3);
+    }
+    
+    .or-divider {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+      color: #666;
+    }
+    
+    .or-divider::before,
+    .or-divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .or-divider span {
+      padding: 0 15px;
+      font-size: 14px;
+    }
+    
+    .social-login {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .social-btn {
+      width: 48%;
+      padding: 12px 0;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .google-btn {
+      background-color: white;
+      border: 1px solid #ddd;
+      color: #333;
+    }
+    
+    .google-btn:hover {
+      background-color: #f5f5f5;
+      border-color: #ccc;
+    }
+    
+    .facebook-btn {
+      background-color: #3b5998;
+      color: white;
+      border: none;
+    }
+    
+    .facebook-btn:hover {
+      background-color: #344e86;
+    }
+    
+    .social-btn i {
+      margin-right: 8px;
+    }
+    
+    .forgot-password {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    
+    .forgot-password a {
+      color: #1845ad;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .forgot-password a:hover {
+      color: #23a2f6;
+      text-decoration: underline;
+    }
+    
+    .signup-prompt {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .signup-prompt a {
+      color: #1845ad;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .signup-prompt a:hover {
+      color: #23a2f6;
+      text-decoration: underline;
+    }
+    
+    /* Responsive Design */
+    @media screen and (max-width: 480px) {
+      .login-form {
+        width: 90%;
+        padding: 30px 20px;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        padding: 10px 5%;
+      }
+      
+      .logo {
+        margin-bottom: 10px;
+      }
+      
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      nav ul li {
+        margin: 5px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-box-open"></i>
+        <h1>InventoryPro</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="./sample.html">Home</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Login Container -->
+  <div class="login-container">
+    <div class="background-shapes">
+      <div class="shape shape-left"></div>
+      <div class="shape shape-right"></div>
+    </div>
+    
+    <!-- Login Form -->
+    <form action="http://localhost:8080/login" method="post" class="login-form">
+      <h2>Welcome Back</h2>
+      <p>Login to access your inventory dashboard</p>
+      
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Email or Username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="" disabled selected>Select your role</option>
+          <option value="manager">Inventory Manager</option>
+          <option value="client">client</option>
+          <!-- <option value="other">Other</option> -->
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+      
+      <button type="submit" class="login-btn">Log In</button>
+      
+      <div class="or-divider">
+        <span>OR</span>
+      </div>
+      
+      <div class="social-login">
+        <button type="button" class="social-btn google-btn">
+          <i class="fab fa-google"></i> Google
+        </button>
+        <button type="button" class="social-btn facebook-btn">
+          <i class="fab fa-facebook-f"></i> Facebook
+        </button>
+      </div>
+      
+      <div class="forgot-password">
+        <a href="#">Forgot Password?</a>
+      </div>
+      
+      <div class="signup-prompt">
+        Don't have an account? <a href="./signUPclaude.html">Sign Up</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
