@@ -49,7 +49,7 @@ app.post('/login', (req, res) => {
             `;
     }else if( role === "client" ){
         query=`
-                SELECT U.User_name, U.Mail, U.Phone_No, U.Password 
+                SELECT U.User_name, U.Mail, U.Phone_No, U.Password, C.Client_ID
                 FROM User U
                 LEFT JOIN Client C ON U.User_Name = C.User_Name 
                 WHERE (U.User_Name = ? OR U.Mail = ?) AND U.Password = ?
@@ -66,8 +66,10 @@ app.post('/login', (req, res) => {
 
         if (results.length > 0) {
             // res.status(200).send('Login successful');  // User found
-            if(role === "client" ){
-                res.sendFile('/html/clientLanding.html', { root: './public' });
+            if (role === "client") {
+                // Redirect with Client ID as a query parameter
+                res.redirect(`/html/clientLanding.html?clientID=${results[0].Client_ID}`);
+                console.log(results);
             }else{
                 res.status(200).send('Login successful');
             }
@@ -239,6 +241,34 @@ app.get('/client/product',(req,res)=>{
             data: results
         });
     });                
+
+});
+
+app.get('/client/product/orders/:id',(req,res)=>{
+
+    const clientId = req.params.id;
+    const query = `
+        SELECT o.Order_ID, i.Name, o.Quantity, o.Amount_Payed, o.Date
+        FROM \`Order\` o
+        JOIN  Item i ON o.Item_ID = i.Item_ID
+        JOIN Client c ON o.Client_ID = c.Client_ID
+        WHERE c.Client_ID = ?; `
+
+        db.query(query, [clientId], (err, result) => {
+            console.log(result);
+            if (err) {
+                console.error('Error fetching orders details:', err);
+                res.status(500).json({ error: 'Failed to fetch order details' });
+            } else if (result.length === 0) {
+                res.status(404).json({ message: 'Order not found' });
+            } 
+            console.log(result);
+            res.status(200).json({
+                success: true,
+                message: 'Orders fetched successfully',
+                data: result
+            });
+        });
 
 });
 

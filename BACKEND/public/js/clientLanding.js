@@ -126,5 +126,14 @@ document.getElementById('price-filter').addEventListener('change', filterProduct
 document.getElementById('availability-filter').addEventListener('change', filterProducts);
 document.getElementById('sort-filter').addEventListener('change', filterProducts);
 
+const urlParams = new URLSearchParams(window.location.search);
+const clientID = urlParams.get('clientID');
+const ordersLink = document.getElementById("history");
+if (clientID) {
+    ordersLink.href = `./history/index.html?clientID=${clientID}`;
+} else {
+    console.error("Client ID not found");
+}
+
 // Initial fetch on page load
 document.addEventListener('DOMContentLoaded', fetchProducts);

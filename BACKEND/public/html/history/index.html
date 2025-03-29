@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Order History</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header section -->
+    <div class="header">
+      <div>
+        <h1 id="clientHeader">Your order history.</h1>
+        <p class="subtitle">View and manage your past orders</p>
+      </div>
+      <button id="backButton" class="back-btn">
+        ← Back to Dashboard
+      </button>
+    </div>
+    
+    <!-- Search bar -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search by product name..." 
+        class="search-input"
+      >
+    </div>
+    
+    <!-- Orders table -->
+    <div class="table-container">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th class="sortable-header" data-field="orderId">Order ID</th>
+            <th class="sortable-header" data-field="productName">Product Name</th>
+            <th class="sortable-header" data-field="quantity">Quantity</th>
+            <th class="sortable-header" data-field="totalAmount">Total Amount</th>
+            <th class="sortable-header" data-field="orderDate">Order Date</th>
+          </tr>
+        </thead>
+        <tbody id="orderTableBody">
+          <!-- Table rows will be dynamically populated -->
+        </tbody>
+      </table>
+      
+      <!-- Empty state message -->
+      <div id="emptyState" class="empty-state hidden">
+        <p class="empty-title">No orders found</p>
+        <p class="empty-subtitle">Your order history will appear here once you make a purchase.</p>
+      </div>
+    </div>
+    
+    <!-- Pagination controls -->
+    <div class="pagination">
+      <div class="pagination-info">
+        Showing <span id="startIndex">1</span>-<span id="endIndex">10</span> of <span id="totalItems">0</span> orders
+      </div>
+      <div>
+        <button id="prevButton" class="pagination-btn">Previous</button>
+        <button id="nextButton" class="pagination-btn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
