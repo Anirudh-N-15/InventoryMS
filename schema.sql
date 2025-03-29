@@ -99,30 +99,6 @@ INSERT INTO Client (User_Name, Order_Count, ORG_Name) VALUES
 ('jack.r', 4, 'FastDelivery Co.');
 
 
-INSERT INTO Item (Item_ID, Name, Quantity, Price) VALUES
-(1, 'Laptop', 50, 999.99),
-(2, 'Smartphone', 100, 499.49),
-(3, 'Tablet', 75, 299.99),
-(4, 'Monitor', 40, 199.99),
-(5, 'Keyboard', 150, 49.99),
-(6, 'Mouse', 200, 29.99),
-(7, 'Headphones', 120, 89.99),
-(8, 'Speaker', 60, 150.00),
-(9, 'External HDD', 30, 120.00),
-(10, 'USB Flash Drive', 300, 20.00);
-
-INSERT INTO Stock (Stock_ID, Item_ID, Stock_Quantity, EXP_Date) VALUES
-(1, 1, 30, '2026-12-31'),
-(2, 2, 50, '2026-11-30'),
-(3, 3, 25, '2026-10-15'),
-(4, 4, 40, '2026-09-20'),
-(5, 5, 100, '2026-08-10'),
-(6, 6, 150, '2026-07-05'),
-(7, 7, 75, '2026-06-01'),
-(8, 8, 90, '2026-05-12'),
-(9, 9, 20, '2026-04-25'),
-(10, 10, 200, '2026-03-30');
-
 INSERT INTO `Order` (Order_ID, Client_ID, Stock_ID, Item_ID, Amount_Payed, Quantity, Date, Payment_Method) VALUES
 (1, 1, 1, 1, 2999.97, 3, '2025-03-20', 'Credit Card'),
 (2, 2, 2, 2, 998.98, 2, '2025-03-21', 'PayPal'),
@@ -136,6 +112,52 @@ INSERT INTO `Order` (Order_ID, Client_ID, Stock_ID, Item_ID, Amount_Payed, Quant
 (10, 5, 10, 10, 400.00, 20, '2025-03-29', 'UPI');
 
 SELECT * FROM `order`;
+
+
+SELECT * FROM Item;
+
+DESCRIBE User;
+DESCRIBE Manager;
+DESCRIBE Client;
+DESCRIBE Item;
+DESCRIBE Stock;
+DESCRIBE `Order`;
+
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM Stock;
+DELETE FROM Item;
+SET SQL_SAFE_UPDATES = 1;
+
+
+ALTER TABLE Item 
+ADD COLUMN IF NOT EXISTS Description VARCHAR(255) NOT NULL DEFAULT 'No description available';
+
+
+
+INSERT INTO Item (Item_ID, Name, Quantity, Price) VALUES
+(1, 'Laptop', 30, 999.99),      
+(2, 'Smartphone', 50, 499.49),    
+(3, 'Tablet', 25, 299.99),          
+(4, 'Monitor', 40, 199.99),    
+(5, 'Keyboard', 100, 49.99),        
+(6, 'Mouse', 150, 29.99),      
+(7, 'Headphones', 75, 89.99),   
+(8, 'Speaker', 90, 150.00),        
+(9, 'External HDD', 20, 120.00),      
+(10, 'USB Flash Drive', 200, 20.00);  
+
+-- Insert into Stock table
+INSERT INTO Stock (Stock_ID, Item_ID, Stock_Quantity, EXP_Date) VALUES
+(1, 1, 30, '2026-12-31'),
+(2, 2, 50, '2026-11-30'),
+(3, 3, 25, '2026-10-15'),
+(4, 4, 40, '2026-09-20'),
+(5, 5, 100, '2026-08-10'),
+(6, 6, 150, '2026-07-05'),
+(7, 7, 75, '2026-06-01'),
+(8, 8, 90, '2026-05-12'),
+(9, 9, 20, '2026-04-25'),
+(10, 10, 200, '2026-03-30');
 
 ALTER TABLE Item
 ADD Description VARCHAR(255) NOT NULL DEFAULT 'No description available';
@@ -180,11 +202,5 @@ UPDATE Item
 SET Description = '32GB USB flash drive with fast read/write speeds'
 WHERE Item_ID = 10;
 
+SELECT * FROM Stock;
 SELECT * FROM Item;
-
-DESCRIBE User;
-DESCRIBE Manager;
-DESCRIBE Client;
-DESCRIBE Item;
-DESCRIBE Stock;
-DESCRIBE `Order`;

@@ -25,8 +25,8 @@ app.set('view engine', 'ejs');
 
 const db = mysql.createPool({
     host: 'localhost',    
-    user: '',         
-    password: '',     
+    user: 'root',         
+    password: 'Lukman$786',     
     database: 'LoginDB'  
 });
 
