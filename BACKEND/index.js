@@ -65,7 +65,12 @@ app.post('/login', (req, res) => {
         }
 
         if (results.length > 0) {
-            res.status(200).send('Login successful');  // User found
+            // res.status(200).send('Login successful');  // User found
+            if(role === "client" ){
+                res.sendFile('/html/clientLanding.html', { root: './public' });
+            }else{
+                res.status(200).send('Login successful');
+            }
         } else {
             res.render('login', { 
                 error: 'Invalid username or password' 
@@ -208,6 +213,33 @@ app.get('/orders/:id', (req, res) => {
             res.json(result[0]);
         }
     });
+});
+
+app.get('/client/product',(req,res)=>{
+    console.log("request recieved...");
+    const query = `
+            SELECT * FROM Item;    
+                `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching orders:', err);
+            return res.status(500).json({ error: 'Failed to fetch orders' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No orders found' });
+        }
+
+        console.log(results);
+
+        res.status(200).json({
+            success: true,
+            message: 'Orders fetched successfully',
+            data: results
+        });
+    });                
+
 });
 
 app.listen(8080, () => {
