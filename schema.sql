@@ -98,22 +98,6 @@ INSERT INTO Client (User_Name, Order_Count, ORG_Name) VALUES
 ('ivy.w', 2, 'GreenGrocers'),
 ('jack.r', 4, 'FastDelivery Co.');
 
-
-INSERT INTO `Order` (Order_ID, Client_ID, Stock_ID, Item_ID, Amount_Payed, Quantity, Date, Payment_Method) VALUES
-(1, 1, 1, 1, 2999.97, 3, '2025-03-20', 'Credit Card'),
-(2, 2, 2, 2, 998.98, 2, '2025-03-21', 'PayPal'),
-(3, 3, 3, 3, 899.97, 3, '2025-03-22', 'Debit Card'),
-(4, 4, 4, 4, 399.98, 2, '2025-03-23', 'Cash'),
-(5, 5, 5, 5, 499.90, 10, '2025-03-24', 'UPI'),
-(6, 1, 6, 6, 89.97, 3, '2025-03-25', 'Credit Card'),
-(7, 2, 7, 7, 269.97, 3, '2025-03-26', 'PayPal'),
-(8, 3, 8, 8, 450.00, 3, '2025-03-27', 'Debit Card'),
-(9, 4, 9, 9, 240.00, 2, '2025-03-28', 'Cash'),
-(10, 5, 10, 10, 400.00, 20, '2025-03-29', 'UPI');
-
-SELECT * FROM `order`;
-
-
 SELECT * FROM Item;
 
 DESCRIBE User;
@@ -127,11 +111,6 @@ SET SQL_SAFE_UPDATES = 0;
 DELETE FROM Stock;
 DELETE FROM Item;
 SET SQL_SAFE_UPDATES = 1;
-
-
-ALTER TABLE Item 
-ADD COLUMN IF NOT EXISTS Description VARCHAR(255) NOT NULL DEFAULT 'No description available';
-
 
 
 INSERT INTO Item (Item_ID, Name, Quantity, Price) VALUES
@@ -158,6 +137,21 @@ INSERT INTO Stock (Stock_ID, Item_ID, Stock_Quantity, EXP_Date) VALUES
 (8, 8, 90, '2026-05-12'),
 (9, 9, 20, '2026-04-25'),
 (10, 10, 200, '2026-03-30');
+
+
+INSERT INTO `Order` (Order_ID, Client_ID, Stock_ID, Item_ID, Amount_Payed, Quantity, Date, Payment_Method) VALUES
+(1, 1, 1, 1, 2999.97, 3, '2025-03-20', 'Credit Card'),
+(2, 2, 2, 2, 998.98, 2, '2025-03-21', 'PayPal'),
+(3, 3, 3, 3, 899.97, 3, '2025-03-22', 'Debit Card'),
+(4, 4, 4, 4, 399.98, 2, '2025-03-23', 'Cash'),
+(5, 5, 5, 5, 499.90, 10, '2025-03-24', 'UPI'),
+(6, 1, 6, 6, 89.97, 3, '2025-03-25', 'Credit Card'),
+(7, 2, 7, 7, 269.97, 3, '2025-03-26', 'PayPal'),
+(8, 3, 8, 8, 450.00, 3, '2025-03-27', 'Debit Card'),
+(9, 4, 9, 9, 240.00, 2, '2025-03-28', 'Cash'),
+(10, 5, 10, 10, 400.00, 20, '2025-03-29', 'UPI');
+
+SELECT * FROM `order`;
 
 ALTER TABLE Item
 ADD Description VARCHAR(255) NOT NULL DEFAULT 'No description available';
