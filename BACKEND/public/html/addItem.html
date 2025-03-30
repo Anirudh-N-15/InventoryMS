@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.2);
+            width: 50%;
+            text-align: center;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color: #007bff;">Item Entry Details</h2>
+        <form action="" method="post">
+            <input type="text" name="item_id" class="input-field" placeholder="Item ID" required>
+            <input type="text" name="name" class="input-field" placeholder="Name" required>
+            <input type="number" name="quantity" class="input-field" placeholder="Quantity" required>
+            <input type="number" step="0.01" name="price" class="input-field" placeholder="Price" required>
+            <input type="text" name="description" class="input-field" placeholder="Description">
+            <button type="submit" class="submit-button">Add Item</button>
+        </form>
+    </div>
+</body>
+</html>

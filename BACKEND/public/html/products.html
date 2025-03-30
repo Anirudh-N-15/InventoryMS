@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Control Management System</title>
-    <link rel="stylesheet" href="./../css/clientLanding.css">
+    <link rel="stylesheet" href="./../css/managerprods.css">
 </head>
 <body>
     <header>
@@ -13,10 +13,11 @@
             <span>Inventory Control</span>
         </div>
         <nav>
-            <a href="#" class="active">Home</a>
-            <!-- <a href="#">Products</a> -->
-            <a id="history" href="./history/index.html?clientid=">Orders</a>
-            <a href="#">Profile</a>
+            <a href="managerdash.html" class="active">Home</a>
+          
+            <a id="history" href="./orders.html">Orders</a>
+            <a href="clients.html" class="active">Clients</a>
+            <a href="insights.html" class="active">Insights</a>
         </nav>
         <div class="header-actions">
             <div class="cart-container">
@@ -62,33 +63,23 @@
         </section>
 
         <section class="product-grid" id="product-grid">
-            <!-- Product cards will be dynamically loaded here -->
+            <!-- Product cards will be loaded here -->
         </section>
     </main>
-
+    
+    
+    <div class="adderButton-container">
+        <a class="adderButton" href="./addItem.html">Add Item</a>
+    </div>
+    
+    
     <footer>
-        <div class="footer-content">
-            <div class="contact-info">
-                <h4>Contact Us</h4>
-                <p>Email: support@inventorycontrol.com</p>
-                <p>Phone: +1 (555) 123-4567</p>
-            </div>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Need Help?</a>
-            </div>
-            <div class="social-icons">
-                <a href="#" class="social-icon">FB</a>
-                <a href="#" class="social-icon">TW</a>
-                <a href="#" class="social-icon">IN</a>
-            </div>
-        </div>
+        
         <div class="copyright">
             © 2025 Inventory Control Management System. All Rights Reserved.
         </div>
     </footer>
 
-    <script src="../js/clientLanding.js"></script>
+    <script src="../js/managerprods.js"></script>
 </body>
 </html>

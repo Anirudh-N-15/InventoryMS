@@ -4,7 +4,7 @@ import cors from "cors"
 import mysql from "mysql2"
 // const express = require('express');
 // const cors = require('cors');
-// const path = require('path');
+import path from "path";
 import bodyParser from "body-parser"
 // const mysql = require('mysql2');
 
@@ -21,13 +21,13 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
-// app.set('views', path.join(__dirname, 'views'));
+
 
 const db = mysql.createPool({
     host: 'localhost',    
     user: 'root',         
-    password: 'Lukman$786',     
-    database: 'LoginDB'  
+    password: '',     
+    database: 'ICMS'  
 });
 
 app.post('/login', (req, res) => {
@@ -70,8 +70,12 @@ app.post('/login', (req, res) => {
                 // Redirect with Client ID as a query parameter
                 res.redirect(`/html/clientLanding.html?clientID=${results[0].Client_ID}`);
                 console.log(results);
-            }else{
-                res.status(200).send('Login successful');
+
+            }
+            
+            else{
+                 res.status(200).redirect('/html/managerdash.html');
+                 
             }
         } else {
             res.render('login', { 
@@ -272,7 +276,10 @@ app.get('/client/product/orders/:id',(req,res)=>{
 
 });
 
+
+
+
 app.listen(8080, () => {
-    console.log('Server started on port 8080');
+    console.log('Server started on port 8000');
 });
 

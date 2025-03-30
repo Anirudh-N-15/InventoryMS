@@ -36,8 +36,8 @@ function renderProducts(productsToRender) {
         
                 <p class="product-description">${product.Description}</p>
                 <div class="product-actions">
-                    <button class="btn btn-view-details" data-id="${product.Item_ID}">View Details</button>
-                    <button class="btn btn-add-to-cart" data-id="${product.Item_ID}">Add to Cart</button>
+                    <button class="btn btn-view-details" data-id="${product.Item_ID}">Update</button>
+                    <button class="btn btn-add-to-cart" data-id="${product.Item_ID}">Delete</button>
                 </div>
             </div>
         `;
@@ -137,3 +137,7 @@ if (clientID) {
 
 // Initial fetch on page load
 document.addEventListener('DOMContentLoaded', fetchProducts);
+
+
+const adder = document.querySelector(".adderButton");
+
