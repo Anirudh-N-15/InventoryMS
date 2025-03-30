@@ -6,6 +6,9 @@ import mysql from "mysql2"
 // const cors = require('cors');
 import path from "path";
 import bodyParser from "body-parser"
+import db from "./database.js"
+import prodRouter from "./routes/manageproducts.js";
+
 // const mysql = require('mysql2');
 
 const app = express();
@@ -17,18 +20,13 @@ app.use(cors());
 app.use(express.static('public'));
 
 
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
+app.use("/manager/products",prodRouter);
 
-
-const db = mysql.createPool({
-    host: 'localhost',    
-    user: 'root',         
-    password: '',     
-    database: 'ICMS'  
-});
 
 app.post('/login', (req, res) => {
     console.log("Received data:", req.body);

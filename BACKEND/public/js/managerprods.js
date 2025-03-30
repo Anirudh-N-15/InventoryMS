@@ -33,24 +33,45 @@ function renderProducts(productsToRender) {
             <div class="product-info">
                 <h3 class="product-name">${product.Name}</h3>
                 <p class="product-price">$${parseFloat(product.Price).toFixed(2)}</p>
-        
+                <p class="product-description">Quantity:   ${product.Quantity}</p>
                 <p class="product-description">${product.Description}</p>
                 <div class="product-actions">
-                    <button class="btn btn-view-details" data-id="${product.Item_ID}">Update</button>
-                    <button class="btn btn-add-to-cart" data-id="${product.Item_ID}">Delete</button>
+                    <a class="btn btn-view-details" href="updItem.html?id=${product.Item_ID}">Update</a>
+                    <button class="btn btn-delete" data-id="${product.Item_ID}">Delete</button>
                 </div>
             </div>
         `;
         
         productGrid.appendChild(productCard);
     });
+     
+    document.querySelectorAll(".btn-delete").forEach(btn=>
+    {
+        btn.addEventListener('click',(e)=>
+        {
+              const productID = e.target.getAttribute('data-id');
+              console.log(productID);
 
-    document.querySelectorAll('.btn-view-details').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const productId = e.target.getAttribute('data-id');
-            window.location.href = `product-details.html?id=${productId}`;
-        });
-    });
+              fetch(`http://localhost:8080/manager/products/delete/${productID}`,{method:"DELETE"})
+              .then(res=>
+              {
+                  if(res.ok){
+                    alert("Product Deleted Successfully");
+                    location.reload();
+
+                  }
+
+                  else
+                  {
+                     alert("Product Deletion Failed");
+                  }
+
+              }
+              )
+              .catch(error=> console.error("Error","Failed to Delete Product"));
+        })
+    }
+    )
 
     document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {

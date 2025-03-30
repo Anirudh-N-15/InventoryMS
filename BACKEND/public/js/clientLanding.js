@@ -32,8 +32,8 @@ function renderProducts(productsToRender) {
             <img src="${product.image || '../image-equilibrium.jpg'}" alt="${product.Name}" class="product-image">
             <div class="product-info">
                 <h3 class="product-name">${product.Name}</h3>
-                <p class="product-price">$${parseFloat(product.Price).toFixed(2)}</p>
-        
+                <p class="product-price">${parseFloat(product.Price).toFixed(2)}</p>
+                 <p class="product-description">Stock Available:${product.Quantity}</p>
                 <p class="product-description">${product.Description}</p>
                 <div class="product-actions">
                     <button class="btn btn-view-details" data-id="${product.Item_ID}">View Details</button>
