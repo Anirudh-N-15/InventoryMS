@@ -77,12 +77,12 @@ nav a.active, nav a:hover {
     background-color: #2980b9;
 }
 
-/* Main Section Styles */
+
 main {
     padding: 30px;
 }
 
-/* Dashboard Overview */
+
 .dashboard-overview {
     text-align: center;
     margin-top: 30px;

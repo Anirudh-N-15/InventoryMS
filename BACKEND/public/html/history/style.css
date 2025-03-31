@@ -1,4 +1,4 @@
-/* Basic styling */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f3f4f6;
@@ -12,7 +12,6 @@ body {
     padding: 20px;
   }
   
-  /* Header */
   .header {
     display: flex;
     justify-content: space-between;
@@ -39,13 +38,14 @@ body {
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
+    text-decoration: none;
   }
   
   .back-btn:hover {
     background-color: #d1d5db;
   }
   
-  /* Search bar */
+
   .search-container {
     background-color: white;
     padding: 15px;
@@ -62,7 +62,7 @@ body {
     font-size: 14px;
   }
   
-  /* Table styling */
+  
   .table-container {
     background-color: white;
     border-radius: 8px;
@@ -109,7 +109,6 @@ body {
     background-color: #e1effe;
   }
   
-  /* Empty state */
   .empty-state {
     text-align: center;
     padding: 40px 20px;
@@ -130,7 +129,6 @@ body {
     display: none;
   }
   
-  /* Pagination */
   .pagination {
     display: flex;
     justify-content: space-between;
@@ -162,7 +160,7 @@ body {
     cursor: not-allowed;
   }
   
-  /* Responsive adjustments */
+  
   @media (max-width: 768px) {
     .header {
       flex-direction: column;

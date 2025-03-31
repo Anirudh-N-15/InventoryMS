@@ -18,7 +18,7 @@ body {
     line-height: 1.6;
 }
 
-/* Header Styles */
+
 header {
     background-color: white;
     display: flex;
@@ -89,7 +89,7 @@ nav a.active, nav a:hover {
     background-color: #2980b9;
 }
 
-/* Search and Filter Styles */
+
 .search-filter-section {
     background-color: white;
     padding: 20px 30px;
@@ -131,7 +131,7 @@ nav a.active, nav a:hover {
     border-radius: 4px;
 }
 
-/* Product Grid Styles */
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -218,7 +218,7 @@ nav a.active, nav a:hover {
     color: var(--text-color);
 }
 
-/* Footer Styles */
+
 footer {
     background-color: var(--secondary-color);
     padding: 30px;
@@ -254,7 +254,7 @@ footer {
     padding-top: 20px;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 768px) {
     header, .search-filter-section {
         flex-direction: column;

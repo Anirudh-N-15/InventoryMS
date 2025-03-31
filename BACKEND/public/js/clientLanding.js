@@ -2,7 +2,7 @@ let products=[];
 async function fetchProducts() {
     try {
         const response = await fetch('http://localhost:8080/client/product'); 
-        console.log("fetch request is send...");// Change URL as per your backend route
+        console.log("fetch request is send...");
         if (!response.ok) {
             throw new Error('Failed to fetch products');
         }
@@ -26,18 +26,17 @@ function renderProducts(productsToRender) {
     productsToRender.forEach((product, index) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
-        
-        // Create HTML content dynamically
+      
         productCard.innerHTML = `
             <img src="${product.image || '../image-equilibrium.jpg'}" alt="${product.Name}" class="product-image">
             <div class="product-info">
                 <h3 class="product-name">${product.Name}</h3>
-                <p class="product-price">${parseFloat(product.Price).toFixed(2)}</p>
-                 <p class="product-description">Stock Available:${product.Quantity}</p>
+                <p class="product-price">$${parseFloat(product.Price).toFixed(2)}</p>
+                <p class="product-description" >Quantity : ${product.Quantity}</p>
                 <p class="product-description">${product.Description}</p>
                 <div class="product-actions">
-                    <button class="btn btn-view-details" data-id="${product.Item_ID}">View Details</button>
-                    <button class="btn btn-add-to-cart" data-id="${product.Item_ID}">Add to Cart</button>
+                
+                    <button class="btn btn-add-to-cart" data-id="${product.Item_ID}">Buy Now</button>
                 </div>
             </div>
         `;
@@ -52,10 +51,25 @@ function renderProducts(productsToRender) {
         });
     });
 
+    
+
     document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const productId = e.target.getAttribute('data-id');
-            alert(`Product ${productId} added to cart`);
+    
+            // Get clientID from the URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const clientID = urlParams.get('clientID');
+    
+            if (!clientID) {
+                console.error("Client ID not found in URL");
+                alert("Client ID is missing!");
+                return; 
+            }
+
+            const redirectURL = `http://localhost:8080/html/BuyNow/index.html?clientID=${clientID}&productID=${productId}`;
+            console.log(`Redirecting to: ${redirectURL}`);
+            window.location.href = redirectURL;
         });
     });
 
@@ -100,7 +114,7 @@ function filterProducts() {
         return matchesSearch && matchesCategory && matchesPrice && matchesAvailability;
     });
 
-    // Sorting logic
+
     switch (sortFilter) {
         case 'price-asc':
             filteredProducts.sort((a, b) => a.Price - b.Price);
@@ -119,7 +133,7 @@ function filterProducts() {
 }
 
 
-// Event listeners for filters and search
+
 document.getElementById('search-input').addEventListener('input', filterProducts);
 document.getElementById('category-filter').addEventListener('change', filterProducts);
 document.getElementById('price-filter').addEventListener('change', filterProducts);
@@ -135,5 +149,5 @@ if (clientID) {
     console.error("Client ID not found");
 }
 
-// Initial fetch on page load
+
 document.addEventListener('DOMContentLoaded', fetchProducts);

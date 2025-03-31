@@ -8,18 +8,18 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header section -->
+
     <div class="header">
       <div>
         <h1 id="clientHeader">Your order history.</h1>
         <p class="subtitle">View and manage your past orders</p>
       </div>
-      <button id="backButton" class="back-btn">
+      <a id="backButton" href="../clientLanding.html" class="back-btn">
         ← Back to Dashboard
-      </button>
+      </a>
     </div>
     
-    <!-- Search bar -->
+    
     <div class="search-container">
       <input 
         type="text" 
@@ -29,7 +29,7 @@
       >
     </div>
     
-    <!-- Orders table -->
+
     <div class="table-container">
       <table class="orders-table">
         <thead>
@@ -46,14 +46,14 @@
         </tbody>
       </table>
       
-      <!-- Empty state message -->
+    
       <div id="emptyState" class="empty-state hidden">
         <p class="empty-title">No orders found</p>
         <p class="empty-subtitle">Your order history will appear here once you make a purchase.</p>
       </div>
     </div>
     
-    <!-- Pagination controls -->
+
     <div class="pagination">
       <div class="pagination-info">
         Showing <span id="startIndex">1</span>-<span id="endIndex">10</span> of <span id="totalItems">0</span> orders

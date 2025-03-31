@@ -37,6 +37,46 @@ prodRouter.post("/add",(req,res)=>
 });
 
 
+prodRouter.post("/update/:id",(req,res)=>
+  {   
+     const {id} = req.params;
+     const {name,quantity,price,description}=req.body;
+     
+     const values = [name,quantity,price,description]
+
+
+     let query = `UPDATE Item SET Name = ?, Quantity = ?, Price = ?, Description = ? WHERE Item_ID =${id}` 
+  
+    db.query(query,values,(err,Results)=>
+  {
+        if(err)
+        {
+          console.log("Error Updating Item into DB");
+          return res.status(500).send("Database Error while trying to Update");
+  
+        }
+  
+        if(Results.affectedRows>0)
+        {
+             res.status(200).redirect("/html/products.html")
+        }
+       
+  })
+  
+  
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
 prodRouter.delete("/delete/:id",(req,res)=>
   {
       const {id} = req.params;

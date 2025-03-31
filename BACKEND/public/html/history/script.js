@@ -33,18 +33,21 @@ const backButton = document.getElementById('backButton');
 const urlParams = new URLSearchParams(window.location.search);
 const clientID = urlParams.get('clientID');
 
+const newUrl = `http://localhost:8080/html/clientLanding.html?clientID=${clientID}`;
+backButton.href=newUrl;
+
 let product = [];
 
 async function fetchOrderHistory() {
   try {
       const response = await fetch(`http://localhost:8080/client/product/orders/${clientID}`); 
-      console.log("fetch request is send...");// Change URL as per your backend route
+      console.log("fetch request is send...");
       if (!response.ok) {
           throw new Error('Failed to fetch products');
       }
-      const result = await response.json();  // Await the JSON parsing first
-      product = result.data;                 // Then access the data property
-      console.log(product);
+      const result = await response.json();  
+      product = result.data;                 
+      console.log(product)
       renderTable(product);
   } catch (error) {
       console.error('Error fetching products:', error);
@@ -59,26 +62,26 @@ function init() {
   setupEventListeners();
 }
   
-  // Display table with data
+
   function renderTable(product) {
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const paginatedOrders = product.slice(start, end);
     console.log(paginatedOrders);
     
-    // Update pagination text
+   
     startIndex.textContent = filteredOrders.length > 0 ? start + 1 : 0;
     endIndex.textContent = Math.min(end, filteredOrders.length);
     totalItems.textContent = filteredOrders.length;
     
-    // Enable/disable pagination buttons
+   
     prevButton.disabled = currentPage === 1;
     nextButton.disabled = end >= filteredOrders.length;
     
-    // Clear table
+  
     orderTableBody.innerHTML = '';
     
-    // Show empty state or fill table
+ 
     if (paginatedOrders.length === 0) {
       emptyState.classList.remove('hidden');
     } else {
@@ -101,9 +104,9 @@ function init() {
     }
   }
   
-  // Setup event listeners
+
   function setupEventListeners() {
-    // Pagination
+   
     prevButton.addEventListener('click', () => {
       if (currentPage > 1) {
         currentPage--;
@@ -118,7 +121,7 @@ function init() {
       }
     });
     
-    // Search
+
     searchInput.addEventListener('input', () => {
       const searchTerm = searchInput.value.toLowerCase();
       
@@ -130,55 +133,10 @@ function init() {
       renderTable(orders);
     });
     
-    // Sorting
-    // sortableHeaders.forEach(header => {
-    //   header.addEventListener('click', () => {
-    //     const field = header.getAttribute('data-field');
-        
-    //     // Change sort direction
-    //     if (sortField === field) {
-    //       sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-    //     } else {
-    //       sortField = field;
-    //       sortDirection = 'asc';
-    //     }
-        
-    //     // Sort the data
-    //     filteredOrders.sort((a, b) => {
-    //       let valueA = a[field];
-    //       let valueB = b[field];
-          
-    //       // Handle number fields
-    //       if (field === 'quantity') {
-    //         valueA = parseInt(valueA);
-    //         valueB = parseInt(valueB);
-    //       } else if (field === 'totalAmount') {
-    //         valueA = parseFloat(valueA.replace(/[^0-9.-]+/g, ''));
-    //         valueB = parseFloat(valueB.replace(/[^0-9.-]+/g, ''));
-    //       }
-          
-    //       // Compare values
-    //       if (valueA < valueB) {
-    //         return sortDirection === 'asc' ? -1 : 1;
-    //       }
-    //       if (valueA > valueB) {
-    //         return sortDirection === 'asc' ? 1 : -1;
-    //       }
-    //       return 0;
-    //     });
-        
-    //     currentPage = 1;
-    //     renderTable();
-    //   });
-    // });
-    
-    // Back button
-    // backButton.addEventListener('click', () => {
-      
-    // });
+   
   }
   
-  // Format date for display
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -188,5 +146,5 @@ function init() {
     });
   }
   
-  // Initialize when page loads
+ 
   window.addEventListener('DOMContentLoaded', init);

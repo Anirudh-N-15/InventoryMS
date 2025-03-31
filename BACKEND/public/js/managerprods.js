@@ -2,7 +2,7 @@ let products=[];
 async function fetchProducts() {
     try {
         const response = await fetch('http://localhost:8080/client/product'); 
-        console.log("fetch request is send...");// Change URL as per your backend route
+        console.log("fetch request is send...");
         if (!response.ok) {
             throw new Error('Failed to fetch products');
         }
@@ -73,13 +73,6 @@ function renderProducts(productsToRender) {
     }
     )
 
-    document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const productId = e.target.getAttribute('data-id');
-            alert(`Product ${productId} added to cart`);
-        });
-    });
-
 }
 
 
@@ -140,7 +133,7 @@ function filterProducts() {
 }
 
 
-// Event listeners for filters and search
+
 document.getElementById('search-input').addEventListener('input', filterProducts);
 document.getElementById('category-filter').addEventListener('change', filterProducts);
 document.getElementById('price-filter').addEventListener('change', filterProducts);

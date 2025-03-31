@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item Form</title>
+    <title>Item Update Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,7 +48,7 @@
 <body>
     <div class="container">
         <h2 style="color: #007bff;">Item Update Form</h2>
-        <form action="" method="post">
+        <form action="http://localhost:8080/manager/products/update/id" method="post">
             <input type="text" name="name" class="input-field" placeholder="Name" required>
             <input type="number" name="quantity" class="input-field" placeholder="Quantity" required>
             <input type="number" step="0.01" name="price" class="input-field" placeholder="Price" required>
@@ -56,5 +56,23 @@
             <button type="submit" class="submit-button">Update Item</button>
         </form>
     </div>
+
+
+    <script>
+       
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+    
+        const itemId = getQueryParam("id");
+        console.log("Item ID:", itemId);
+        if (itemId) {
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector("form").action = `http://localhost:8080/manager/products/update/${itemId}`;
+            });
+        }
+    </script>
+    
 </body>
 </html>

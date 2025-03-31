@@ -2,20 +2,17 @@
 import express from "express"
 import cors from "cors"
 import mysql from "mysql2"
-// const express = require('express');
-// const cors = require('cors');
+
 import path from "path";
 import bodyParser from "body-parser"
 import db from "./database.js"
 import prodRouter from "./routes/manageproducts.js";
 
-// const mysql = require('mysql2');
 
 const app = express();
 app.use(cors());
 
-// app.use(express.static(path.join(__dirname, "/public/html")));
-// app.use(express.static(path.join(__dirname, "/public/css")));
+
 
 app.use(express.static('public'));
 
@@ -28,60 +25,140 @@ app.set('view engine', 'ejs');
 app.use("/manager/products",prodRouter);
 
 
-app.post('/login', (req, res) => {
+// app.post('/login', (req, res) => {
+//     console.log("Received data:", req.body);
+
+//     const { username, role, password } = req.body;
+
+//     if (!username || !role || !password) {
+//         return res.status(400).send('Missing username or password');
+//     }
+
+//     let query = "";
+//     if(role === "manager"){
+//         query=`
+//                 SELECT U.User_name, U.Mail, U.Phone_No, U.Password 
+//                 FROM User U
+//                 LEFT JOIN Manager M ON U.User_name = M.User_Name 
+//                 WHERE (U.User_Name = ? OR U.Mail = ?) AND U.Password = ?
+//             `;
+//     }else if( role === "client" ){
+//         query=`
+//                 SELECT U.User_name, U.Mail, U.Phone_No, U.Password, C.Client_ID
+//                 FROM User U
+//                 LEFT JOIN Client C ON U.User_Name = C.User_Name 
+//                 WHERE (U.User_Name = ? OR U.Mail = ?) AND U.Password = ?
+//             `;
+//     }else {
+//         return res.status(400).send('Invalid role');
+//     }
+
+//     db.query(query, [username, username, password], (err, results) => {
+//         if (err) {
+//             console.error('Error querying database:', err);
+//             return res.status(500).send('Database error');
+//         }
+
+//         if (results.length > 0) {
+            
+//             if (role === "client") {
+//                 // Redirect with Client ID as a query parameter
+//                 res.redirect(`/html/clientLanding.html?clientID=${results[0].Client_ID}`);
+//                 console.log(results);
+
+//             }
+            
+//             else{
+//                  res.status(200).redirect('/html/managerdash.html');
+                 
+//             }
+//         } else {
+//             res.render('login', { 
+//                 error: 'Invalid username or password' 
+//             });
+//         }
+//     }); 
+// });
+
+
+
+const runQuery = (query, params) => {
+    return new Promise((resolve, reject) => {
+        db.query(query, params, (err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
+app.post('/login', async (req, res) => {
     console.log("Received data:", req.body);
 
     const { username, role, password } = req.body;
 
     if (!username || !role || !password) {
-        return res.status(400).send('Missing username or password');
+        return res.status(400).send('Missing username, role, or password');
     }
 
     let query = "";
-    if(role === "manager"){
-        query=`
-                SELECT U.User_name, U.Mail, U.Phone_No, U.Password 
-                FROM User U
-                LEFT JOIN Manager M ON U.User_name = M.User_Name 
-                WHERE (U.User_Name = ? OR U.Mail = ?) AND U.Password = ?
-            `;
-    }else if( role === "client" ){
-        query=`
-                SELECT U.User_name, U.Mail, U.Phone_No, U.Password, C.Client_ID
-                FROM User U
-                LEFT JOIN Client C ON U.User_Name = C.User_Name 
-                WHERE (U.User_Name = ? OR U.Mail = ?) AND U.Password = ?
-            `;
-    }else {
+    if (role === "manager") {
+        query = `
+            SELECT U.User_name, U.Mail, U.Phone_No, U.Password,M.Manager_ID
+            FROM User U
+            LEFT JOIN Manager M ON U.User_name = M.User_Name 
+            WHERE (U.User_Name = ? OR U.Mail = ?) AND U.Password = ?
+        `;
+    } else if (role === "client") {
+        query = `
+            SELECT U.User_name, U.Mail, U.Phone_No, U.Password, C.Client_ID
+            FROM User U
+            LEFT JOIN Client C ON U.User_Name = C.User_Name 
+            WHERE (U.User_Name = ? OR U.Mail = ?) AND U.Password = ?
+        `;
+    } else {
         return res.status(400).send('Invalid role');
     }
 
-    db.query(query, [username, username, password], (err, results) => {
-        if (err) {
-            console.error('Error querying database:', err);
-            return res.status(500).send('Database error');
-        }
-
-        if (results.length > 0) {
+    try {
+        const result = await runQuery(query, [username, username, password]);
+        console.log("hello..",result);
+        
+        if (result.length > 0) {
+            console.log(result);
             // res.status(200).send('Login successful');  // User found
-            if (role === "client") {
+            if (result[0].Client_ID != null) {
+                console.log("in client");
                 // Redirect with Client ID as a query parameter
-                res.redirect(`/html/clientLanding.html?clientID=${results[0].Client_ID}`);
-                console.log(results);
+                res.redirect(`/html/clientLanding.html?clientID=${result[0].Client_ID}`);
+                console.log(result);
 
             }
-            
-            else{
+            else if(result[0].Manager_ID != null){
+                console.log("in manager");
                  res.status(200).redirect('/html/managerdash.html');
                  
+            }
+            else {
+                res.render('login', { 
+                    error: 'Invalid username or password' 
+                });
             }
         } else {
             res.render('login', { 
                 error: 'Invalid username or password' 
             });
         }
-    }); 
+    } catch (error) {
+        console.log("in catch");
+        console.error('Error:', error);
+        res.status(500).send('Database error');
+    }
 });
+
+
 
 app.post('/sign-up', (req, res) => {
     console.log("Received data:", req.body);
@@ -132,7 +209,7 @@ app.post('/sign-up', (req, res) => {
                 }
 
                 if (roleResults.affectedRows > 0) {
-                    res.status(200).send(`Sign-Up successful as ${role}`);
+                    res.status(200).redirect('html/loginPage.html')
                 } else {
                     res.status(500).send(`Failed to insert into ${role}`);
                 }
@@ -272,6 +349,142 @@ app.get('/client/product/orders/:id',(req,res)=>{
             });
         });
 
+});
+
+
+
+
+app.get('/client/product/buynow/:productid',(req,res)=>{
+    const product_id = req.params.productid;
+    const query = `
+        SELECT * FROM Item WHERE Item.Item_ID = ?;
+    `;
+    db.query(query,[product_id],(err, result)=>{
+        console.log(result);
+        if (err) {
+            console.error('Error fetching product details:', err);
+            res.status(500).json({ error: 'Failed to fetch order details' });
+        } else if(result.length === 0){
+            res.status(404).json({ message: 'Order not found' });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'product fetched successfully',
+            data: result
+        });
+        
+    })
+
+});
+
+// const runQuery = (query, params) => {
+//     return new Promise((resolve, reject) => {
+//         db.query(query, params, (err, results) => {
+//             if (err) {
+//                 reject(err);
+//             } else {
+//                 resolve(results);
+//             }
+//         });
+//     });
+// };
+
+
+app.post('/client/product/buynow', async (req, res) => {
+    const order = req.body;
+    console.log("Received order:", order);
+
+    if (!order || !order.productId) {
+        return res.status(400).send('Invalid request: Missing productId');
+    }
+
+    try {
+       
+        const query1 = `
+            SELECT Stock_ID, Stock_Quantity
+            FROM Stock
+            WHERE Item_ID = ?
+            ORDER BY EXP_Date ASC
+            LIMIT 1;
+        `;
+
+        const result1 = await runQuery(query1, [order.productId]);
+
+        if (result1.length === 0) {
+            console.log('No stock found for this product');
+            return res.status(404).send('Stock not found');
+        }
+
+        const stock_id = result1[0].Stock_ID;
+        const currentStock = result1[0].Stock_Quantity;
+
+        console.log('Stock ID:', stock_id, 'Current Stock:', currentStock);
+
+        if (currentStock < order.quantity) {
+            console.log('Insufficient stock');
+            return res.status(400).send('Insufficient stock');
+        }
+
+       
+        const updateQuery = `
+            UPDATE Stock
+            SET Stock_Quantity = Stock_Quantity - ?
+            WHERE Stock_ID = ?;
+        `;
+
+        const result2 = await db.promise().query(updateQuery, [order.quantity, stock_id]);
+
+        if (result2[0].affectedRows > 0) {
+            console.log('Stock updated successfully');
+        } else {
+            console.log("Failed to update stock");
+            return res.status(500).send('Failed to update stock');
+        }
+
+        const updateItemQuery = `
+            UPDATE Item
+            SET Quantity = Quantity - ?
+            WHERE Item_ID = ?;
+        `;
+
+        const result3 = await db.promise().query(updateItemQuery, [order.quantity, order.productId]);
+
+        if (result3[0].affectedRows > 0) {
+            console.log('Item_table updated successfully');
+        } else {
+            console.log("Failed to update Item_Table");
+            return res.status(500).send('Failed to update item table');
+        }
+
+      
+        const query2 = `
+            INSERT INTO \`Order\` (Client_ID, Stock_ID, Item_ID, Amount_Payed, Quantity, Date, Payment_Method)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const formattedDate = new Date(order.orderDate).toISOString().split('T')[0];
+
+        const values = [
+            order.clientId, 
+            stock_id, 
+            order.productId, 
+            order.totalAmount, 
+            order.quantity, 
+            formattedDate, 
+            order.method
+        ];
+
+        const result = await db.promise().query(query2, values);
+        console.log('Order inserted successfully:', result);
+
+        const newOrderId = result[0].insertId;
+        res.status(201).send(`Order inserted successfully with ID: ${newOrderId}`);
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Database error');
+    }
 });
 
 

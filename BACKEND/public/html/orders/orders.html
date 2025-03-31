@@ -7,18 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
+    
     <header>
         <div class="logo-container">
-            <img src="logo.png" alt="Inventory Management Logo" class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzNDk4REIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iNyIgaGVpZ2h0PSI3IiByeD0iMSIvPjxyZWN0IHg9IjE0IiB5PSIzIiB3aWR0aD0iNyIgaGVpZ2h0PSI3IiByeD0iMSIvPjxyZWN0IHg9IjMiIHk9IjE0IiB3aWR0aD0iNyIgaGVpZ2h0PSI3IiByeD0iMSIvPjxyZWN0IHg9IjE0IiB5PSIxNCIgd2lkdGg9IjciIGhlaWdodD0iNyIgcng9IjEiLz48L3N2Zz4=" alt="Inventory Management Logo" class="logo">
             <h1>Inventory Control Management System</h1>
         </div>
         <nav>
-            <a href="#" class="nav-link">Dashboard</a>
-            <a href="#" class="nav-link">Products</a>
-            <a href="#" class="nav-link active">Orders</a>
-            <a href="#" class="nav-link">Insights</a>
-            <a href="#" class="nav-link">Profile</a>
+            <a href="../managerdash.html" class="nav-link">Dashboard</a>
+            <a href="../products.html" class="nav-link">Products</a>
+            <a href="#" class="nav-link">Clients</a>
+           
         </nav>
         <button class="logout-btn">Logout</button>
     </header>
@@ -70,7 +69,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Inventory Control Management System</p>
         <div class="footer-links">
@@ -78,7 +76,23 @@
             <a href="#">Contact Support</a>
         </div>
     </footer>
-
+    
+    <script>
+       
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+    
+        const itemId = getQueryParam("id");
+        console.log("Item ID:", itemId);
+        if (itemId) {
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector("form").action = `http://localhost:8080/manager/products/update/${itemId}`;
+            });
+        }
+    </script>
+    
     <script src="script.js"></script>
 </body>
 </html>

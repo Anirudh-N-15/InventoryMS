@@ -11,7 +11,7 @@
 
 </head>
 <body>
-  <!-- Header Section -->
+
   <header>
     <div class="header-container">
       <div class="logo">
@@ -29,14 +29,14 @@
     </div>
   </header>
   
-  <!-- Sign Up Container -->
+
   <div class="signup-container">
     <div class="background-shapes">
       <div class="shape shape-left"></div>
       <div class="shape shape-right"></div>
     </div>
     
-    <!-- Sign Up Form -->
+
     <form action="http://localhost:8080/sign-up" method="post" class="signup-form">
       <h2>Create Your Account</h2>
       <p>Join InventoryPro and optimize your inventory management</p>
@@ -72,10 +72,8 @@
         <label for="role">Role</label>
         <select id="role" name="role" required>
           <option value="" disabled selected>Select your role</option>
-          <option value="owner">Business Owner</option>
+          <option value="client">Client</option>
           <option value="manager">Inventory Manager</option>
-          <option value="staff">Warehouse Staff</option>
-          <option value="other">Other</option>
         </select>
       </div>
       
@@ -137,22 +135,21 @@
       }
     }
 
-    // Add event listener to the form for submission validation
+  
     document.addEventListener('DOMContentLoaded', function() {
       const form = document.querySelector('.signup-form');
       
       form.addEventListener('submit', function(event) {
-        // Validate passwords match before submission
+        
         if (!validatePasswords()) {
-          event.preventDefault(); // Prevent form submission
+          event.preventDefault(); 
         }
       });
       
-      // Add blur event to confirm password field
+      
       const confirmPasswordField = document.getElementById('confirmPassword');
       confirmPasswordField.addEventListener('blur', validatePasswords);
-      
-      // Add input event to both password fields for real-time validation
+ 
       const passwordField = document.getElementById('password');
       passwordField.addEventListener('input', function() {
         if (confirmPasswordField.value !== '') {
