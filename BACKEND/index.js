@@ -26,8 +26,8 @@ app.set('view engine', 'ejs');
 const db = mysql.createPool({
     host: 'localhost',    
     user: 'root',         
-    password: '',     
-    database: 'ICMS'  
+    password: 'Lukman$786',     
+    database: 'LoginDB'                                                                                                                                                                       
 });
 
 app.post('/login', (req, res) => {
@@ -274,6 +274,242 @@ app.get('/client/product/orders/:id',(req,res)=>{
             });
         });
 
+});
+
+app.get('/client/product/buynow/:productid',(req,res)=>{
+    const product_id = req.params.productid;
+    const query = `
+        SELECT * FROM Item WHERE Item.Item_ID = ?;
+    `;
+    db.query(query,[product_id],(err, result)=>{
+        console.log(result);
+        if (err) {
+            console.error('Error fetching product details:', err);
+            res.status(500).json({ error: 'Failed to fetch order details' });
+        } else if(result.length === 0){
+            res.status(404).json({ message: 'Order not found' });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'product fetched successfully',
+            data: result
+        });
+        
+    })
+
+});
+
+const runQuery = (query, params) => {
+    return new Promise((resolve, reject) => {
+        db.query(query, params, (err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
+
+
+// app.post('/client/product/buynow', async (req, res) => {
+//     const order = req.body;
+//     console.log("Received order:", order);
+
+//     if (!order || !order.productId) {
+//         return res.status(400).send('Invalid request: Missing productId');
+//     }
+
+
+//     let stock_id;
+//     try {
+
+//         const query1 = `
+//         SELECT Stock_ID
+//         FROM Stock
+//         WHERE Item_ID = ?
+//         ORDER BY EXP_Date ASC
+//         LIMIT 1;
+//         `;
+
+//         const result1 = await runQuery(query1, [order.productId]);
+
+//         if (result1.length === 0) {
+//             console.log('No stock found for this product');
+//             return res.status(404).send('Stock not found');
+//         }
+
+//         stock_id = result1[0].Stock_ID;
+//         console.log('Stock ID:', stock_id);
+
+//         // Use stock_id here
+//         // res.status(200).json({ stockId: stock_id });
+//         console.log(stock_id);
+//         if (currentStock < quantity) {
+//             await connection.rollback();
+//             return res.status(400).send('Insufficient stock');
+//         }
+
+//         const updateQuery = `
+//             UPDATE Stock
+//             SET Stock_Quantity = Stock_Quantity - ?
+//             WHERE Stock_ID = ?;
+//         `;
+
+//         const result2 = await db.promise().query(updateQuery, [order.quantity, stock_id]);
+
+//         if (result2.affectedRows > 0) {
+//             console.log('Stock updated successfully');
+//             // res.status(200).send('Order placed and stock updated');
+//         } else {
+//             console.log("Failed to update stock");
+//             // res.status(500).send('Failed to update stock');
+//         }
+
+//         const updateItemQuery = `
+//             UPDATE Item
+//             SET Quantity = Quantity - ?
+//             WHERE Item_ID = ?;
+//         `;
+
+//         const result3 = await db.promise().query(updateItemQuery, [order.quantity,order.productId]);
+
+//         if (result3.affectedRows > 0) {
+//             console.log('Item_table updated successfully');
+//             // res.status(200).send('Order placed and stock updated');
+//         } else {
+//             console.log("Failed to update Item_Table");
+//             // res.status(500).send('Failed to update stock');
+//         }
+
+
+//     } catch (error) {
+//         console.error('Error fetching product details:', error);
+//         res.status(500).send('Database error');
+//     }
+
+
+//     const query2 = `
+//     INSERT INTO \`Order\` (Client_ID, Stock_ID, Item_ID, Amount_Payed, Quantity, Date, Payment_Method)
+//     VALUES (?, ?, ?, ?, ?, ?, ?)
+//     `;
+
+
+
+//     const formattedDate = new Date(order.orderDate).toISOString().split('T')[0];
+
+//     const values = [order.clientId, stock_id, order.productId, order.totalAmount, order.quantity, formattedDate, order.method];
+//     console.log(values);
+//     db.query(query2, values, (err, result) => {
+//         if (err) {
+//             console.error('Error inserting order:', err);
+//             return res.status(500).send('Database error');
+//         }
+//         console.log('Order inserted successfully:', result);
+//         res.status(201).send('Order inserted successfully');
+//     });
+
+
+// });
+
+
+app.post('/client/product/buynow', async (req, res) => {
+    const order = req.body;
+    console.log("Received order:", order);
+
+    if (!order || !order.productId) {
+        return res.status(400).send('Invalid request: Missing productId');
+    }
+
+    try {
+        // Fetch stock ID and quantity
+        const query1 = `
+            SELECT Stock_ID, Stock_Quantity
+            FROM Stock
+            WHERE Item_ID = ?
+            ORDER BY EXP_Date ASC
+            LIMIT 1;
+        `;
+
+        const result1 = await runQuery(query1, [order.productId]);
+
+        if (result1.length === 0) {
+            console.log('No stock found for this product');
+            return res.status(404).send('Stock not found');
+        }
+
+        const stock_id = result1[0].Stock_ID;
+        const currentStock = result1[0].Stock_Quantity;
+
+        console.log('Stock ID:', stock_id, 'Current Stock:', currentStock);
+
+        if (currentStock < order.quantity) {
+            console.log('Insufficient stock');
+            return res.status(400).send('Insufficient stock');
+        }
+
+        // Update stock quantity
+        const updateQuery = `
+            UPDATE Stock
+            SET Stock_Quantity = Stock_Quantity - ?
+            WHERE Stock_ID = ?;
+        `;
+
+        const result2 = await db.promise().query(updateQuery, [order.quantity, stock_id]);
+
+        if (result2[0].affectedRows > 0) {
+            console.log('Stock updated successfully');
+        } else {
+            console.log("Failed to update stock");
+            return res.status(500).send('Failed to update stock');
+        }
+
+        // Update item quantity
+        const updateItemQuery = `
+            UPDATE Item
+            SET Quantity = Quantity - ?
+            WHERE Item_ID = ?;
+        `;
+
+        const result3 = await db.promise().query(updateItemQuery, [order.quantity, order.productId]);
+
+        if (result3[0].affectedRows > 0) {
+            console.log('Item_table updated successfully');
+        } else {
+            console.log("Failed to update Item_Table");
+            return res.status(500).send('Failed to update item table');
+        }
+
+        // Insert order
+        const query2 = `
+            INSERT INTO \`Order\` (Client_ID, Stock_ID, Item_ID, Amount_Payed, Quantity, Date, Payment_Method)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const formattedDate = new Date(order.orderDate).toISOString().split('T')[0];
+
+        const values = [
+            order.clientId, 
+            stock_id, 
+            order.productId, 
+            order.totalAmount, 
+            order.quantity, 
+            formattedDate, 
+            order.method
+        ];
+
+        const result = await db.promise().query(query2, values);
+        console.log('Order inserted successfully:', result);
+
+        const newOrderId = result[0].insertId;
+        res.status(201).send(`Order inserted successfully with ID: ${newOrderId}`);
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Database error');
+    }
 });
 
 

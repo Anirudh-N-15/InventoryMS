@@ -1,4 +1,8 @@
 -- Disable foreign key checks to avoid constraint issues
+SHOW DATABASES;
+DROP DATABASE IF EXISTS LoginDB;
+CREATE DATABASE IF NOT EXISTS LoginDB;
+USE LoginDB;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- Drop tables in reverse dependency order
@@ -151,6 +155,9 @@ INSERT INTO `Order` (Order_ID, Client_ID, Stock_ID, Item_ID, Amount_Payed, Quant
 (9, 4, 9, 9, 240.00, 2, '2025-03-28', 'Cash'),
 (10, 5, 10, 10, 400.00, 20, '2025-03-29', 'UPI');
 
+ALTER TABLE `Order`
+MODIFY COLUMN Order_ID INT AUTO_INCREMENT;
+
 SELECT * FROM `order`;
 
 ALTER TABLE Item
@@ -196,5 +203,3 @@ UPDATE Item
 SET Description = '32GB USB flash drive with fast read/write speeds'
 WHERE Item_ID = 10;
 
-SELECT * FROM Stock;
-SELECT * FROM Item;

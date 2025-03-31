@@ -37,7 +37,7 @@ function renderProducts(productsToRender) {
                 <p class="product-description">${product.Description}</p>
                 <div class="product-actions">
                     <button class="btn btn-view-details" data-id="${product.Item_ID}">View Details</button>
-                    <button class="btn btn-add-to-cart" data-id="${product.Item_ID}">Add to Cart</button>
+                    <button class="btn btn-add-to-cart" data-id="${product.Item_ID}">Buy Now</button>
                 </div>
             </div>
         `;
@@ -52,10 +52,31 @@ function renderProducts(productsToRender) {
         });
     });
 
+    // document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
+    //     btn.addEventListener('click', (e) => {
+    //         const productId = e.target.getAttribute('data-id');
+    //         alert(`Product ${productId} added to cart`);
+    //     });
+    // });
+
     document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const productId = e.target.getAttribute('data-id');
-            alert(`Product ${productId} added to cart`);
+    
+            // Get clientID from the URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const clientID = urlParams.get('clientID');
+    
+            if (!clientID) {
+                console.error("Client ID not found in URL");
+                alert("Client ID is missing!");
+                return; 
+            }
+    
+            // Redirect to the specified page with clientID and productID in the URL
+            const redirectURL = `http://localhost:8080/html/BuyNow/index.html?clientID=${clientID}&productID=${productId}`;
+            console.log(`Redirecting to: ${redirectURL}`);
+            window.location.href = redirectURL;
         });
     });
 

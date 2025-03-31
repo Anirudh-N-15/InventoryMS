@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Order</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">TechGadgets</div>
+            <a href="index.html" class="back-link">Back to Product</a>
+        </header>
+        
+        <div class="progress-bar">
+            <div class="step active">1
+                <span class="step-label">Product</span>
+            </div>
+            <div class="step active">2
+                <span class="step-label">Order</span>
+            </div>
+            <div class="step">3
+                <span class="step-label">Payment</span>
+            </div>
+            <div class="step">4
+                <span class="step-label">Confirmation</span>
+            </div>
+        </div>
+        
+        <div class="order-card">
+            <div class="product-image">
+                <img id="product-img" src="https://via.placeholder.com/300" alt="Product Image">
+            </div>
+            <div class="order-details">
+                <h1>Complete Your Order</h1>
+                <div class="product-info">
+                    <div class="product-name" id="product-name"></div>
+                    <div class="product-price" id="product-price"></div>
+                    <div class="product-description" id="product-description"></div>
+                </div>
+                <div class="order-form">
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" min="1" value="1">
+                    </div>
+                    <div class="total-section">
+                        <span class="total-label">Total Amount:</span>
+                        <span class="total-amount" id="total-amount"></span>
+                    </div>
+                    <div class="form-group">
+                        <select id="status-filter" required>
+                            <option value="">All Pay Methods</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="UPI">UPI</option>
+                            <option value="PayPal">PayPal</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Debit Card">Debit Card</option>
+                        </select>
+                    </div>
+                    <button class="btn" id="confirm-btn">Confirm Order</button>
+                    <div class="confirmation" id="confirmation-message">
+                        <p>Your order has been placed! Thank you for your purchase.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
