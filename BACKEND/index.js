@@ -12,11 +12,7 @@ import prodRouter from "./routes/manageproducts.js";
 const app = express();
 app.use(cors());
 
-
-
 app.use(express.static('public'));
-
-
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -94,6 +90,10 @@ const runQuery = (query, params) => {
     });
 };
 
+
+app.get('/',(req,res)=>{
+     res.render('landing');
+})
 app.post('/login', async (req, res) => {
     console.log("Received data:", req.body);
 
@@ -351,9 +351,6 @@ app.get('/client/product/orders/:id',(req,res)=>{
 
 });
 
-
-
-
 app.get('/client/product/buynow/:productid',(req,res)=>{
     const product_id = req.params.productid;
     const query = `
@@ -456,7 +453,6 @@ app.post('/client/product/buynow', async (req, res) => {
             console.log("Failed to update Item_Table");
             return res.status(500).send('Failed to update item table');
         }
-
       
         const query2 = `
             INSERT INTO \`Order\` (Client_ID, Stock_ID, Item_ID, Amount_Payed, Quantity, Date, Payment_Method)
@@ -486,8 +482,6 @@ app.post('/client/product/buynow', async (req, res) => {
         res.status(500).send('Database error');
     }
 });
-
-
 
 
 app.listen(8080, () => {
